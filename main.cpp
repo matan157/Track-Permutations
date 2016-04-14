@@ -5,7 +5,7 @@ using namespace std;
 
 typedef list<string> StringList;
 
-list<string> permute(StringList&);
+list<StringList> permute(StringList&);
 void print_list(StringList&);
 int main() {
     
@@ -17,13 +17,25 @@ int main() {
 
     list<StringList> res = permute(tracks);
     for(list<StringList>::iterator iter = res.begin(); iter != res.end(); iter++)
-        print_list(*i);
+        print_list(*iter);
     
     return 0;
 }
 
 // Returns a list of lists
 list<StringList> permute(StringList &tracks) {
+    // DEBUG
+    static int debug = false;
+    if (debug) {
+        static int running = 0;
+        if(running == 0) {
+            cout << "Still running..." << endl;
+            running = 100000;
+        } else {
+            running--;
+        }
+    }
+    // END DEBUG
     if (tracks.size() == 1)
         return list<StringList>(1,tracks);
 
@@ -34,7 +46,7 @@ list<StringList> permute(StringList &tracks) {
         // make a list without the current element
         StringList tmp(tracks.begin(), i++);
         tmp.insert(tmp.end(), i, tracks.end());
-
+        
         // recurse to get all sub-permutations
         list<StringList> sub = permute(tmp);
 
@@ -44,14 +56,18 @@ list<StringList> permute(StringList &tracks) {
 
         result.insert(result.begin(), sub.begin(), sub.end());
     }
-
     return result;
 }
 
-void print_list(list<string>& tracks) {
+void print_list(list<string> &tracks) {
     list<string>::iterator iter;
-    cout << "========================" << endl;
+    static int perm = 1;
+    cout << "\tVERSION " << perm << endl;
+    cout << "=========================" << endl;
+    cout << "Price" << endl << "Friends" << endl;
     for(iter = tracks.begin(); iter != tracks.end(); iter++)
         cout << *iter << endl;
+    cout << "Montreal" << endl << "Broken" << endl;
     cout << "=========================" << endl;
+    perm++;
 }
